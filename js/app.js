@@ -6,6 +6,8 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.x = x;
+    this.y = y;
 };
 
 // Update the enemy's position, required method for game
@@ -14,6 +16,12 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    this.isOutOfBoundX = this.x > 505;
+    if(this.isOutOfBoundX) {
+      this.x = -101;
+    } else {
+      this.x += dt;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -24,25 +32,58 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+class Player {
+  constructor(x, y) {
+    this.sprite = 'images/char-boy.png';
+    this.x = x;
+    this.y = y;
+  }
+
+  update(dt) {
+
+  }
+
+  render() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
+
+  handleInput(input) {
+    if (input === 'left' && this.x > 10) {
+      this.x = this.x - 50;
+    } else if (input === 'right' && this.x < 394) {
+      this.x = this.x + 50;
+    } else if (input === 'up' && this.y > 0) {
+      this.y = this.y - 40;
+    } else if (input === 'down' && this.y < 440) {
+      this.y = this.y + 40;
+    } else if (this.y === 0) {
+      this.x = 203;
+      this.y = 440;
+    }
+  }
+}
+
+/*
 const Player = function Player(character) {
   this.img = character || 'images/char-boy.png';
   this.x = 203;
   this.y = 440;
 }
 
-Player.prototype.update = function() {
-
-}
+Player.prototype.update = function() {}
 
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.img), this.x, this.y);
 }
 
+Player.prototype.handleInput = function() {}
+*/
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-let player = new Player();
+let player = new Player(203, 440);
 let allEnemies = [];
 
 // This listens for key presses and sends the keys to your
