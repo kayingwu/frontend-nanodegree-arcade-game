@@ -1,3 +1,6 @@
+//ref:
+//https://zoom.us/recording/play/aulotDlzKFegQFIJTaTzKgWvNkVsYtlwO454vL1UPE1Cm6lOUBQCtfVurPOIAGAS?startTime=1529542978000
+
 // Enemies our player must avoid
 var Enemy = function(x, y) {
     // Variables applied to each of our instances go here,
@@ -61,21 +64,25 @@ class Player {
       this.y = 5;
     }
   }
+
 }
 
+function checkCollisions() {
+  if (Player.y === allEnemies.y && Player.x === allEnemies.x) {
+    Player.x = 2;
+    Player.y = 5;
+  }
+};
 /*
 const Player = function Player(character) {
   this.img = character || 'images/char-boy.png';
   this.x = 203;
   this.y = 440;
 }
-
 Player.prototype.update = function() {}
-
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.img), this.x, this.y);
 }
-
 Player.prototype.handleInput = function() {}
 */
 
