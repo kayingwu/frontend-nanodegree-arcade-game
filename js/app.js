@@ -1,5 +1,5 @@
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(x, y) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
@@ -16,17 +16,17 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.isOutOfBoundX = this.x > 505;
-    if(this.isOutOfBoundX) {
-      this.x = -101;
+
+    if(this.x > 5) {
+      this.x = -1;
     } else {
-      this.x += dt;
+      this.x = this.x + dt + Math.floor(Math.random()* 1.01);
     }
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x * 101, this.y * 83);
 };
 
 // Now write your own player class
@@ -44,21 +44,21 @@ class Player {
   }
 
   render() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x * 101, this.y * 83);
   }
 
   handleInput(input) {
-    if (input === 'left' && this.x > 10) {
-      this.x = this.x - 50;
-    } else if (input === 'right' && this.x < 394) {
-      this.x = this.x + 50;
+    if (input === 'left' && this.x > 0) {
+      this.x = this.x - .5;
+    } else if (input === 'right' && this.x < 4) {
+      this.x = this.x + .5;
     } else if (input === 'up' && this.y > 0) {
-      this.y = this.y - 40;
-    } else if (input === 'down' && this.y < 440) {
-      this.y = this.y + 40;
+      this.y = this.y - .5;
+    } else if (input === 'down' && this.y < 5) {
+      this.y = this.y + .5;
     } else if (this.y === 0) {
-      this.x = 203;
-      this.y = 440;
+      this.x = 2;
+      this.y = 5;
     }
   }
 }
@@ -83,8 +83,11 @@ Player.prototype.handleInput = function() {}
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-let player = new Player(203, 440);
-let allEnemies = [];
+const player = new Player(2, 5);
+const allEnemies = [...Array(3)].map(
+  (_,i) => new Enemy(0, i+1)
+);
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
